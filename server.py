@@ -3,9 +3,9 @@ import sqlite3, json, os, secrets, hashlib, hmac, re, base64, urllib.request, da
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlparse, parse_qs
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-DB = os.environ.get("RMS_DB", os.path.join(HERE, "rentmystyle.db"))
+DB = os.environ.get("RMS_DB", "rentmystyle.db")
 PORT = int(os.environ.get("PORT", "8000"))
+HERE = os.path.dirname(os.path.abspath(__file__))
 UPLOADS = os.environ.get("UPLOAD_DIR", os.path.join(HERE, "uploads")); os.makedirs(UPLOADS, exist_ok=True)
 MAX_BODY = 6_000_000; FAILS = {}
 HOLD_MIN = 10

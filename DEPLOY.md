@@ -17,11 +17,11 @@ Estimated cost with Render: about $7/month for the server plus about $0.25 per G
 ## Step 2: Create the server on Render
 1. Create an account at render.com and connect your GitHub.
 2. Click New, then Web Service, pick your rentmystyle repository.
-3. Settings: Runtime Python. Build command: pip install -r requirements.txt. Start command: python3 server.py. Instance type: Free.
-4. Do NOT add a Disk on the Free plan.
+3. Settings: Runtime Python. Build command: pip install -r requirements.txt. Start command: python3 server.py. Instance type: Starter (the free type cannot keep your data).
+4. Open the Disks section, add a disk: name data, mount path /data, size 1 GB.
 5. Open Environment and add these variables:
-   - RMS_DB = ./rentmystyle.db
-   - UPLOAD_DIR = ./uploads
+   - RMS_DB = /data/rentmystyle.db
+   - UPLOAD_DIR = /data/uploads
    - RMS_NO_DEMO = 1   (skips the fake demo owner and listings)
    - ADMIN_PASSWORD = choose a long password of your own
 6. Click Create Web Service. When it says Live, open the address Render gives you (it already has https).
@@ -48,7 +48,3 @@ Estimated cost with Render: about $7/month for the server plus about $0.25 per G
 - One server, SQLite database. Good for a launch and early traffic, not for very large scale.
 - No email or SMS OTP, courier integration, or automatic refunds and payouts yet.
 - Owners cannot block their own dates yet, and photo AI search is not built.
-
-
-## Important for the Free Render version
-The Free plan has an ephemeral filesystem. The SQLite database and uploaded photos can be lost when the service redeploys, restarts, or spins down. This version is for testing/demo use. For a real marketplace, move the database to Render Postgres and file uploads to durable object storage, or use a paid service with persistent storage.
