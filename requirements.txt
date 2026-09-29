@@ -1,0 +1,1 @@
+# No packages needed: RentMyStyle uses only Python's standard library.

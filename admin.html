@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RentMyStyle Admin</title>
+<style>
+:root{--bg:#faf6ef;--card:#fff;--ink:#26221f;--bur:#6d1a2b;--line:#e4dccd}
+@media(prefers-color-scheme:dark){:root{--bg:#171412;--card:#221e1b;--ink:#f3ece0;--bur:#d0687d;--line:#382f29}}
+*{box-sizing:border-box}body{margin:0 auto;background:var(--bg);color:var(--ink);font:14px/1.5 system-ui,sans-serif;padding:16px;max-width:1100px}
+h1{font:600 28px Georgia,serif;color:var(--bur)}button,input{font:inherit;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+button{cursor:pointer}button.p,.tabs button.on{background:var(--bur);color:#fff;border-color:var(--bur)}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin:12px 0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}.stat b{display:block;font:600 24px Georgia,serif;color:var(--bur)}
+.wrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:14px}table{border-collapse:collapse;width:100%}td,th{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+#login{max-width:340px;margin:60px auto;display:grid;gap:10px}.err{color:#b3261e}
+</style></head><body>
+<div id="login"><h1>RentMyStyle Admin</h1><input id="em" placeholder="Email" value="admin@rentmystyle.local"><input id="pw" type="password" placeholder="Password"><button class="p" onclick="login()">Log in</button><div id="er" class="err"></div></div>
+<div id="app" hidden><h1>RentMyStyle Admin</h1><div class="stats" id="stats"></div><div class="tabs" id="tabs"></div><div id="pane"></div></div>
+<script>
+let T=localStorage.getItem('rms_admin')||'',cur='users';const R=n=>'₹'+(n/100).toLocaleString('en-IN',{maximumFractionDigits:0});
+const TABS=['users','listings','bookings','payments','disputes','reports','reviews','fees'];
+const ACT={users:[['block','Block'],['unblock','Unblock'],['verify','Verify']],listings:[['remove','Remove'],['restore','Restore']]};
+const api=async(p,b)=>{const r=await fetch('/api/admin/'+p,{method:b?'POST':'GET',headers:{Authorization:'Bearer '+T,'Content-Type':'application/json'},body:b?JSON.stringify(b):undefined});const j=await r.json();if(!r.ok)throw Error(j.error);return j};
+async function login(){try{const r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em.value,password:pw.value})});const j=await r.json();if(!r.ok||j.role!='admin')throw Error(j.error||'Admin only');T=j.token;localStorage.setItem('rms_admin',T);start()}catch(e){er.textContent=e.message}}
+async function start(){let s;try{s=await api('stats')}catch(e){return}
+ document.getElementById('login').hidden=true;app.hidden=false;
+ stats.innerHTML=[['Users',s.users],['Active listings',s.active_listings],['Total rentals',s.rentals],['Revenue',R(s.revenue_paise)],['GMV',R(s.gmv_paise)],['Avg rental',R(s.avg_rental_paise)],['Cancellation',s.cancellation_pct+'%'],['Dispute rate',s.dispute_pct+'%']].map(([a,b])=>`<div class="stat"><b>${b}</b>${a}</div>`).join('');
+ tabs.innerHTML=TABS.map(t=>`<button class="${t==cur?'on':''}" onclick="cur='${t}';start()">${t}</button>`).join('');show()}
+async function show(){if(cur=='fees'){const f=await api('fees');pane.innerHTML=`<div class="stat"><p>Commission is in basis points (1500 = 15%). New rates apply to future bookings only.</p><input id="bp" type="number" value="${f.commission_bps}"> bps &nbsp; <input id="dl" type="number" value="${f.delivery_paise/100}"> ₹ delivery &nbsp;<button class="p" onclick="saveFees()">Save fees</button></div>`;return}
+ const rows=await api(cur);if(!rows.length){pane.innerHTML='<p>Nothing here yet.</p>';return}
+ const ks=Object.keys(rows[0]).filter(k=>!['pw','salt','pickup_address','description'].includes(k));
+ pane.innerHTML=`<div class="wrap"><table><tr>${ks.map(k=>`<th>${k}</th>`).join('')}<th></th></tr>${rows.map(r=>`<tr>${ks.map(k=>`<td>${k.endsWith('_paise')&&r[k]!=null?R(r[k]):(r[k]??'')}</td>`).join('')}<td>${(ACT[cur]||[]).map(([a,l])=>`<button onclick="act('${cur}',${r.id},'${a}')">${l}</button>`).join(' ')}${cur=='disputes'&&r.status!='resolved'?`<button class="p" onclick="resolve(${r.id})">Resolve</button>`:''}</td></tr>`).join('')}</table></div>`}
+async function act(t,i,a){try{await api(`${t}/${i}/${a}`,{});start()}catch(e){alert(e.message)}}
+async function resolve(i){const v=prompt('Rupees of the deposit that go to the owner? (0 = full refund to renter)','0');if(v===null)return;try{await api(`disputes/${i}/resolve`,{resolution_rupees:v});start()}catch(e){alert(e.message)}}
+async function saveFees(){try{await api('fees',{commission_bps:bp.value,delivery_rupees:dl.value});alert('Saved');show()}catch(e){alert(e.message)}}
+if(T)start();
+</script></body></html>

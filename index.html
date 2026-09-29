@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RentMyStyle</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf6ef;--card:#fff;--ink:#26221f;--mut:#7a706a;--bur:#6d1a2b;--gold:#b8963e;--line:#e9e1d3;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171412;--card:#221e1b;--ink:#f3ece0;--mut:#a89d92;--bur:#c8586e;--gold:#d4b25a;--line:#382f29}}
+:root[data-theme="dark"]{--bg:#171412;--card:#221e1b;--ink:#f3ece0;--mut:#a89d92;--bur:#c8586e;--gold:#d4b25a;--line:#382f29}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 'DM Sans',system-ui,sans-serif;padding-bottom:84px;max-width:1100px;margin:auto}
+h1,h2,h3,.serif{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;line-height:1.1}
+button{font:inherit;cursor:pointer;border:0;color:inherit;background:none}
+.view{display:none;padding:0 16px 24px}.view.on{display:block;animation:in .45s ease}
+@keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.hero{margin:0 -16px;padding:56px 22px 90px;color:#fff;position:relative;overflow:hidden;background:radial-gradient(120% 90% at 80% 10%,#a8324a 0,#6d1a2b 45%,#2a0b12 100%);min-height:440px}
+.hero svg{position:absolute;right:-30px;bottom:-10px;width:62%;opacity:.28}
+.hero h1{font-size:clamp(38px,9vw,64px);max-width:11em;margin-bottom:14px}
+.hero p{max-width:26em;opacity:.85;margin-bottom:22px}
+.btn{padding:13px 22px;border-radius:99px;font-weight:600;transition:transform .2s}.btn:active{transform:scale(.96)}
+.p{background:var(--gold);color:#1e1608}.g{border:1px solid #fff8;color:#fff}
+.dark .g{}
+.scroll{position:absolute;left:50%;bottom:54px;width:2px;height:28px;background:#fff6;overflow:hidden}
+.scroll:after{content:"";position:absolute;inset:0;background:#fff;animation:sc 1.6s infinite}@keyframes sc{from{transform:translateY(-100%)}to{transform:translateY(100%)}}
+.search{position:relative;margin:-56px 0 26px;background:var(--card);border-radius:22px;padding:16px;box-shadow:0 18px 40px #0002;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.search label{font-size:12px;color:var(--mut);display:block}
+select,input{width:100%;padding:10px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
+.search .btn{grid-column:1/-1;background:var(--bur);color:#fff}
+h2{font-size:30px;margin:26px 0 12px}
+.row{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}
+.cat{flex:0 0 132px;scroll-snap-align:start;text-align:left}
+.ph{position:relative;overflow:hidden;border-radius:18px;aspect-ratio:3/4;transition:transform .5s}
+.ph svg{position:absolute;inset:14% 14% 8%;width:72%;height:78%;filter:drop-shadow(0 8px 10px #0003)}
+.cat:hover .ph,.card:hover .ph{transform:scale(1.03)}
+.cat b{display:block;margin-top:6px;font-weight:500}
+.occ{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.occ button{border-radius:18px;padding:36px 14px 14px;text-align:left;color:#fff;font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(min-width:720px){.grid{grid-template-columns:repeat(4,1fr)}.cat{flex-basis:170px}}
+.card{background:var(--card);border-radius:20px;overflow:hidden;border:1px solid var(--line);cursor:pointer}
+.card .ph{border-radius:0;aspect-ratio:4/5}
+.card .in{padding:10px 12px 14px;font-size:13px}.card h3{font-size:19px;margin-bottom:2px}
+.heart{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;background:#fffc;color:#6d1a2b;font-size:17px;z-index:2;transition:transform .25s}
+.heart.on{animation:pop .4s}@keyframes pop{50%{transform:scale(1.4)}}
+.price{color:var(--bur);font-weight:600;font-size:15px}.mut{color:var(--mut)}.ok{color:#2e7d4f}
+.chips{display:flex;gap:8px;overflow-x:auto;margin:10px 0}
+.chip{padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:var(--card);white-space:nowrap}.chip.on{background:var(--bur);color:#fff;border-color:var(--bur)}
+.back{margin:14px 0;color:var(--mut)}
+.det .ph{aspect-ratio:4/5;max-height:70vh}
+.box{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin:14px 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.line{display:flex;justify-content:space-between;padding:5px 0}.line.t{border-top:1px solid var(--line);margin-top:6px;padding-top:10px;font-weight:600;font-size:17px}
+.dep{color:var(--gold)}
+.sizes{display:flex;gap:8px;flex-wrap:wrap}.sizes .chip{min-width:46px;text-align:center}
+.cta{display:block;width:100%;background:var(--bur);color:#fff;padding:15px;border-radius:16px;font-weight:600;margin-top:12px}
+.tl{list-style:none;padding:0;margin:0 0 0 8px;border-left:2px solid var(--line)}
+.tl li{position:relative;padding:0 0 22px 22px;opacity:.35;transition:opacity .5s}
+.tl li:before{content:"";position:absolute;left:-8px;top:3px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:2px solid var(--line)}
+.tl li.d{opacity:1}.tl li.d:before{background:var(--gold);border-color:var(--gold)}
+.steps{display:flex;gap:6px;margin:12px 0}.steps i{flex:1;height:4px;border-radius:4px;background:var(--line);transition:background .4s}.steps i.d{background:var(--gold)}
+.stat{text-align:center}.stat b{display:block;font:600 30px 'Cormorant Garamond',serif;color:var(--bur)}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:10;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom,0px))}
+nav button{font-size:11px;color:var(--mut);display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 10px}nav button span{font-size:19px}nav button.on{color:var(--bur);font-weight:600}
+.fab{position:fixed;right:14px;bottom:calc(78px + env(safe-area-inset-bottom,0px));z-index:11;background:var(--gold);color:#1e1608;padding:12px 18px;border-radius:99px;font-weight:600;box-shadow:0 8px 22px #0004}
+.sheet{position:fixed;inset:auto 0 0 0;z-index:20;background:var(--card);border-radius:24px 24px 0 0;padding:20px 16px calc(24px + env(safe-area-inset-bottom,0px));transform:translateY(105%);transition:transform .4s;max-height:80vh;overflow:auto;max-width:1100px;margin:auto}
+.sheet.on{transform:none}
+.scan{height:4px;border-radius:4px;background:linear-gradient(90deg,transparent,var(--gold),transparent);background-size:50% 100%;background-repeat:no-repeat;animation:sn 1s infinite}@keyframes sn{from{background-position:-50% 0}to{background-position:150% 0}}
+.conf{position:fixed;top:-10px;width:9px;height:14px;z-index:30;animation:fall 1.8s ease-in forwards}@keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:0}}
+.note{font-size:12px;color:var(--mut)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.pm{display:flex;gap:10px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:14px;margin:8px 0;width:100%;text-align:left;background:var(--bg)}.pm.on{border-color:var(--bur);box-shadow:0 0 0 2px var(--bur) inset}
+.toast{position:fixed;left:50%;top:calc(14px + env(safe-area-inset-top,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;z-index:40;max-width:90vw}
+.ov{position:fixed;inset:0;background:#0008;z-index:19;display:none}.ov.on{display:block}
+.gal{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:8px;border-radius:18px}.gal img{flex:0 0 100%;scroll-snap-align:center;aspect-ratio:4/5;object-fit:cover;border-radius:18px;max-height:70vh}
+.bk{margin:10px 0}.sm{padding:8px 14px;border-radius:99px;border:1px solid var(--bur);color:var(--bur);margin:4px 4px 0 0}
+</style></head><body>
+<section class="view on" id="home">
+ <div class="hero"><svg viewBox="0 0 100 130" fill="#fff"><path d="M38 6h24l4 22c0 10-6 16-16 16S34 38 34 28zM30 46c14 8 26 8 40 0l20 78H10z"/></svg>
+  <h1>Your next look is already in someone's closet.</h1>
+  <p>Rent stunning outfits, jewellery and accessories for your next occasion — without buying them.</p>
+  <button class="btn p" onclick="go('explore')">Explore styles</button> <button class="btn g" onclick="go('sell')">Rent out your closet</button><div class="scroll"></div></div>
+ <div class="search">
+  <div><label>Occasion</label><select id="so"><option value="">Any</option><option>Wedding</option><option>Reception</option><option>Engagement</option><option>Party</option><option>Festival</option><option>Photoshoot</option></select></div>
+  <div><label>Category</label><select id="sc"><option value="">Any</option><option>Lehenga</option><option>Saree</option><option>Dress</option><option>Sherwani</option><option>Jewellery</option><option>Bag</option><option>Shoes</option></select></div>
+  <div><label>City</label><select id="sy"><option value="">Any</option><option>Delhi</option><option>Mumbai</option><option>Bengaluru</option><option>Hyderabad</option><option>Pune</option></select></div>
+  <div><label>Pickup date</label><input type="date" id="sd"></div>
+  <button class="btn" onclick="searchGo()">Find my look</button></div>
+ <h2>Browse by category</h2><div class="row" id="cats"></div>
+ <h2>Dress for the moment.</h2><div class="occ" id="occs"></div>
+ <h2>Trending in your city</h2><div class="grid" id="trend"></div>
+ <div class="box" style="background:linear-gradient(135deg,#6d1a2b,#2a0b12);color:#fff;margin-top:28px"><h2 style="margin-top:0">Turn your wardrobe into income.</h2><p style="opacity:.85">That lehenga sitting in your closet could pay for itself.</p><button class="btn p" style="margin-top:14px" onclick="go('sell')">List an item</button></div>
+</section>
+<section class="view" id="explore"><h2>Explore</h2><div class="chips" id="chips"></div><div class="grid" id="list"></div></section>
+<section class="view det" id="detail"></section>
+<section class="view" id="sell"><h2>Turn your wardrobe into income</h2><div class="box" id="sbody"></div></section>
+<section class="view" id="bookings"><h2>Bookings</h2><div id="bl"></div></section>
+<section class="view" id="profile"><h2>My account</h2><div id="pf"></div></section>
+<button class="fab" onclick="sheet(1)">✨ Style Me</button><div class="ov" id="ov" onclick="closeAll()"></div>
+<div class="sheet" id="sh"><div style="display:flex;justify-content:space-between"><h3 style="font-size:26px">Your recommended looks</h3><button onclick="closeAll()" aria-label="Close">✕</button></div><p class="mut" style="margin:6px 0 10px">Pick an occasion. We only show items that are currently active.</p><div class="chips" id="sco"></div><div id="sres"></div><p class="note">Suggestions are informational; fit is not guaranteed.</p></div>
+<div class="sheet" id="au"></div><div class="sheet" id="co"></div><nav id="nav"></nav>
+<script>
+let T=localStorage.getItem('rms_t')||'',CFG={delivery_paise:19900,mode:'test'},items=[],F={},cur,sz='M',ME=null;
+const $=s=>document.querySelector(s),R=n=>'₹'+Math.round(n/100).toLocaleString('en-IN'),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+async function api(p,body){const r=await fetch('/api'+p,{method:body?'POST':'GET',headers:{'Content-Type':'application/json',...(T?{Authorization:'Bearer '+T}:{})},body:body?JSON.stringify(body):undefined});const j=await r.json().catch(()=>({}));if(!r.ok)throw Error(j.error||'Something went wrong. Please try again.');return j}
+function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.append(t);setTimeout(()=>t.remove(),3200)}
+const SIL={Lehenga:'<path d="M42 8h16l3 20c6 2 8 8 8 14L92 118H8L31 42c0-6 2-12 8-14z"/>',Saree:'<path d="M38 6h24l4 30-10 14 26 68H14l26-68-8-14z"/>',Dress:'<path d="M40 8h20l2 26 14 84H24l14-84z"/>',Sherwani:'<path d="M32 10h36l14 26v82H18V36zM50 12v104"/>',Jewellery:'<circle cx="50" cy="60" r="34" fill="none" stroke="#fff" stroke-width="8"/><circle cx="50" cy="94" r="10"/>',Bag:'<path d="M20 44h60l6 66H14zM34 44c0-24 32-24 32 0" stroke="#fff" stroke-width="6" fill-rule="evenodd"/>',Shoes:'<path d="M14 92l12-40 12 12 44 22v20H14z"/>'};
+const COLS=[['#8e2238','#3a0c17'],['#e8d9b8','#b8963e'],['#1f6f5a','#0b2d25'],['#c9a24d','#6b4f16'],['#3b2a55','#150e22'],['#e7a7b0','#a4485a']];
+const ph=(l,x='')=>{const c=COLS[l.id%COLS.length];if(l.photos&&l.photos.length)return `<div class="ph" style="background:#000">${x}<img src="${l.photos[0]}" loading="lazy" alt="${esc(l.title||l.category)}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></div>`;return `<div class="ph" style="background:linear-gradient(160deg,${c[0]},${c[1]})">${x}<svg viewBox="0 0 100 130" fill="rgba(255,255,255,.88)" role="img" aria-label="${esc(l.category)}">${SIL[l.category]||SIL.Dress}</svg></div>`};
+const gal=l=>l.photos&&l.photos.length>1?`<div class="gal">${l.photos.map((u,i)=>`<img src="${u}" ${i?'loading="lazy"':''} alt="${esc(l.title)} photo ${i+1}">`).join('')}</div><p class="note">Swipe for more photos (${l.photos.length})</p>`:ph(l);
+let liked=new Set(JSON.parse(localStorage.getItem('rms_w')||'[]'));
+function fav(b,id){liked.has(id)?liked.delete(id):liked.add(id);b.classList.add('on');b.textContent=liked.has(id)?'♥':'♡';localStorage.setItem('rms_w',JSON.stringify([...liked]))}
+const card=l=>`<div class="card" onclick="openL(${l.id})">${ph(l,`<button class="heart" onclick="event.stopPropagation();fav(this,${l.id})" aria-label="Save">${liked.has(l.id)?'♥':'♡'}</button>`)}<div class="in"><h3>${esc(l.title)}</h3><span class="price">${R(l.rental_paise)}/day</span> <span class="mut">· ${esc(l.city)}</span><br>${l.rating?'★ '+l.rating+' · ':''}<span class="ok">● Available</span></div></div>`;
+const CATS=['Lehenga','Saree','Dress','Sherwani','Jewellery','Bag','Shoes'];
+$('#cats').innerHTML=CATS.map((c,k)=>`<button class="cat" onclick="filt('category','${c}')">${ph({id:k,category:c})}<b>${c}</b></button>`).join('');
+$('#occs').innerHTML=['Wedding','Reception','Engagement','Party','Festival','Photoshoot'].map((o,k)=>`<button style="background:linear-gradient(160deg,${COLS[k][0]},${COLS[k][1]})" onclick="filt('occasion','${o}')">${o}</button>`).join('');
+async function load(){const q=new URLSearchParams(F).toString();try{items=await api('/listings?'+q)}catch(e){items=[];toast(e.message)}}
+async function filt(k,v){F=v?{[k]:v}:{};go('explore')}
+async function searchGo(){F={};[['occasion','#so'],['category','#sc'],['city','#sy']].forEach(([k,s])=>{if($(s).value)F[k]=$(s).value});const d=$('#sd').value;if(d){F.start=d;F.end=d}go('explore')}
+async function renderList(){$('#chips').innerHTML=['All',...CATS].map(c=>`<button class="chip ${(F.category||'All')==c?'on':''}" onclick="filt('category','${c=='All'?'':c}')">${c}</button>`).join('');$('#list').innerHTML='<div class="scan" style="grid-column:1/-1"></div>';await load();$('#list').innerHTML=items.length?items.map(card).join(''):'<p class="mut">No matches yet. Try another category, city or date.</p>'}
+async function openL(id){try{cur=await api('/listings/'+id)}catch(e){return toast(e.message)}sz=cur.size||'M';const c=cur;
+ $('#detail').innerHTML=`<button class="back" onclick="go('explore')">← Back</button>${gal(c)}<h2 style="margin:16px 0 4px">${esc(c.title)}</h2><div class="mut">${c.rating?'★ '+c.rating+' · ':''}${c.rentals} rentals · ${esc(c.city)} · Condition: ${esc(c.condition)}</div>
+ <div class="price" style="font-size:22px;margin:6px 0">${R(c.rental_paise)}/day <span class="mut" style="font-size:13px;font-weight:400">retail ${R(c.purchase_paise||0)}</span></div>
+ <div class="box"><h3>Your dates</h3><div class="two"><div><label class="note">Pickup</label><input type="date" id="d1"></div><div><label class="note">Return</label><input type="date" id="d2"></div></div><p class="note" id="av"></p><div id="calc"></div></div>
+ <div class="box"><h3>Size</h3><div class="sizes">${['XS','S','M','L','XL'].map(s=>`<button class="chip ${s==sz?'on':''}" onclick="sz='${s}';this.parentNode.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x==this))">${s}</button>`).join('')}</div><p class="note" style="margin-top:8px">Fit estimates are informational, not a guarantee. Check measurements with the owner in chat.</p></div>
+ <div class="box"><h3>Condition report</h3><p class="mut">Owner-reported condition: ${esc(c.condition)}. Condition photos are added before dispatch and again on return.</p></div>
+ <button class="cta" id="res" onclick="reserve()">Reserve this look</button><button class="cta" style="background:none;color:var(--mut);font-weight:400" onclick="rep(${c.id})">Report listing</button>`;
+ const t=new Date(Date.now()+864e5*3);$('#d1').valueAsDate=t;$('#d2').valueAsDate=new Date(+t+864e5*2);['d1','d2'].forEach(x=>$('#'+x).onchange=calc);calc();go('detail')}
+function days(){const a=$('#d1').valueAsDate,b=$('#d2').valueAsDate;return a&&b?Math.round((b-a)/864e5)+1:0}
+function overlap(){const a=$('#d1').value,b=$('#d2').value;return cur.booked.some(([s,e])=>s<=b&&e>=a)}
+function calc(){const d=days(),bad=d<1||overlap();$('#av').innerHTML=d<1?'Return must be on or after pickup.':overlap()?'<span style="color:#b3261e">Those dates are already booked. Try other dates.</span>':'<span class="ok">Available for your dates</span>';$('#res').disabled=bad;$('#res').style.opacity=bad?.5:1;
+ $('#calc').innerHTML=bad?'':`<div class="line"><span>${d} day${d>1?'s':''} × ${R(cur.rental_paise)}</span><span>${R(d*cur.rental_paise)}</span></div><div class="line dep"><span>Refundable security deposit</span><span>${R(cur.deposit_paise)}</span></div><div class="line"><span>Delivery</span><span>${R(CFG.delivery_paise)}</span></div><div class="line t"><span>Total</span><span>${R(d*cur.rental_paise+cur.deposit_paise+CFG.delivery_paise)}</span></div>`}
+function needAuth(then){if(T)return then();authSheet(then)}
+let authMode='login',authThen=null;
+function authSheet(then){authThen=then||authThen;$('#au').innerHTML=`<div style="display:flex;justify-content:space-between"><h3 style="font-size:26px">${authMode=='login'?'Log in':'Create account'}</h3><button onclick="closeAll()" aria-label="Close">✕</button></div>${authMode=='signup'?'<input id="an" placeholder="Your name" style="margin:8px 0"><input id="ac" placeholder="City" style="margin:0 0 8px">':''}<input id="ae" type="email" placeholder="Email" style="margin:8px 0"><input id="ap" type="password" placeholder="Password (8+ characters)"><button class="cta" onclick="doAuth()">${authMode=='login'?'Log in':'Create account'}</button><button class="back" onclick="authMode=authMode=='login'?'signup':'login';authSheet()">${authMode=='login'?'New here? Create an account':'Have an account? Log in'}</button>`;show('au')}
+async function doAuth(){try{const j=await api(authMode=='login'?'/login':'/signup',{email:$('#ae').value,password:$('#ap').value,name:$('#an')?.value,city:$('#ac')?.value});T=j.token;localStorage.setItem('rms_t',T);ME=null;closeAll();toast('Welcome'+(j.name?', '+j.name:''));if(authThen){const f=authThen;authThen=null;f()}}catch(e){toast(e.message)}}
+function reserve(){needAuth(async()=>{try{const b=await api('/bookings',{listing_id:cur.id,start:$('#d1').value,end:$('#d2').value});checkout(b)}catch(e){toast(e.message)}})}
+let PM='upi';const PMS=[['upi','UPI','Google Pay, PhonePe, Paytm, any UPI app'],['card','Credit / debit card','Entered securely on the payment provider page'],['netbanking','Net banking','All major banks'],['wallet','Wallet','Paytm, Amazon Pay and others']];
+function checkout(b){$('#co').innerHTML=`<div style="display:flex;justify-content:space-between"><h3 style="font-size:26px">Pay & reserve</h3><button onclick="closeAll()" aria-label="Close">✕</button></div>
+ <div class="line"><span>${b.days} day rental</span><span>${R(b.rental_paise)}</span></div><div class="line dep"><span>Refundable security deposit</span><span>${R(b.deposit_paise)}</span></div><div class="line"><span>Delivery</span><span>${R(b.delivery_paise)}</span></div><div class="line t"><span>Total</span><span>${R(b.total_paise)}</span></div>
+ <h3 style="margin-top:14px;font-size:20px">Payment method</h3>${PMS.map(([k,n,d])=>`<button class="pm ${k==PM?'on':''}" onclick="PM='${k}';checkout(window._b)"><b>${n}</b><span class="note">${d}</span></button>`).join('')}
+ <label style="display:flex;gap:8px;margin:10px 0" class="note"><input type="checkbox" id="tc" style="width:auto"> I accept the rental terms. The deposit is refunded after return inspection; damage claims are reviewed, never charged automatically.</label>
+ <button class="cta" onclick="pay(${b.booking_id})">Pay ${R(b.total_paise)}</button><p class="note" style="margin-top:8px">${CFG.mode=='test'?'Test mode: no real money is taken.':'Payments are processed securely by Razorpay. RentMyStyle never sees your card details.'} Your dates are held for 10 minutes.</p>`;window._b=b;show('co')}
+async function pay(id){if(!$('#tc').checked)return toast('Please accept the rental terms to continue.');
+ try{const r=await api(`/bookings/${id}/pay`,{method:PM});
+  if(r.order_id){await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://checkout.razorpay.com/v1/checkout.js';s.onload=res;s.onerror=()=>rej(Error('Could not load the payment page.'));document.body.append(s)});
+   new Razorpay({key:r.key_id,order_id:r.order_id,amount:r.amount,name:'RentMyStyle',handler:async x=>{try{await api(`/bookings/${id}/verify`,{order_id:x.razorpay_order_id,payment_id:x.razorpay_payment_id,signature:x.razorpay_signature});done()}catch(e){toast(e.message)}}}).open()}
+  else done()}catch(e){toast(e.message)}}
+function done(){closeAll();confetti();toast('Your look is reserved! 🎉');go('bookings')}
+function rep(id){needAuth(async()=>{const r=prompt('What is wrong with this listing?');if(r){try{await api('/reports',{listing_id:id,reason:r});toast('Thanks, our team will review it.')}catch(e){toast(e.message)}}})}
+const STG=['Booking confirmed','Owner preparing item','Picked up','Out for delivery','Delivered','Rental period','Return pickup','Returned'],IDX={confirmed:0,preparing:1,dispatched:3,delivered:5,return_pickup:6,returned:7,completed:7,disputed:7};
+async function renderBk(){if(!T){$('#bl').innerHTML='<div class="box"><p class="mut">Log in to see your bookings.</p><button class="cta" onclick="needAuth(renderBk)">Log in</button></div>';return}
+ try{if(!ME)ME=await api('/me');const L=await api('/bookings');$('#bl').innerHTML=L.length?L.map(b=>{const mine=b.owner_id==ME.id,k=IDX[b.status];return `<div class="box bk"><h3>${esc(b.title)}</h3><p class="mut">${b.start_date} to ${b.end_date} · ${mine?'You are the owner':'You are renting'} · ${R(b.total_paise)}</p><p><b>${b.status.replace('_',' ')}</b></p>
+ ${k!=null?`<ul class="tl" style="margin-top:10px">${STG.map((s,j)=>`<li class="${j<=k?'d':''}">${s}</li>`).join('')}</ul>`:''}
+ ${mine&&['confirmed','preparing','dispatched','delivered','return_pickup'].includes(b.status)?`<button class="sm" onclick="act(${b.id},'advance')">Mark next step</button>`:''}${mine&&b.status=='returned'?`<button class="sm" onclick="act(${b.id},'complete')">Complete & release deposit</button>`:''}
+ ${['delivered','return_pickup','returned'].includes(b.status)?`<button class="sm" onclick="dispute(${b.id})">Report a problem</button>`:''}${!mine&&b.status=='completed'?`<button class="sm" onclick="review(${b.id})">Leave a review</button>`:''}${b.status=='pending_payment'?`<button class="sm" onclick="act(${b.id},'cancel')">Cancel</button>`:''}</div>`}).join(''):'<div class="box"><p class="mut">No bookings yet. Find a look you love.</p></div>'}catch(e){T='';localStorage.removeItem('rms_t');$('#bl').innerHTML='<p class="mut">Please log in again.</p>'}
+ $('#bl').insertAdjacentHTML('beforeend','<p class="note">Deposit is refundable after return inspection. Damage claims go through review and are never charged automatically.</p>')}
+async function act(id,a){try{await api(`/bookings/${id}/${a}`,{});renderBk()}catch(e){toast(e.message)}}
+async function dispute(id){const n=prompt('Describe the problem (damage, missing item, late return, stain):');if(!n)return;const c=prompt('Amount you are claiming in ₹ (0 if unsure):','0');try{await api(`/bookings/${id}/dispute`,{type:'damage',note:n,claimed_rupees:c||0});toast('Dispute opened. Our team will review.');renderBk()}catch(e){toast(e.message)}}
+async function review(id){const r=prompt('Rating 1-5:','5');if(!r)return;const c=prompt('Your review:');try{await api(`/bookings/${id}/review`,{rating:r,comment:c});toast('Thanks for your review!')}catch(e){toast(e.message)}}
+function renderSell(){if(!T){$('#sbody').innerHTML='<p class="mut">Log in to list an item.</p><button class="cta" onclick="needAuth(renderSell)">Log in</button>';return}
+ $('#sbody').innerHTML=`<h3>List an item</h3><p class="note">Your exact address stays private. It is shared only with the renter after payment.</p><div class="two" style="margin-top:8px"><input id="lt" placeholder="Title, e.g. Red bridal lehenga"><select id="lc">${CATS.map(c=>`<option>${c}</option>`).join('')}</select>
+ <select id="lo"><option>Wedding</option><option>Reception</option><option>Engagement</option><option>Party</option><option>Festival</option><option>Photoshoot</option></select><select id="ly"><option>Delhi</option><option>Mumbai</option><option>Bengaluru</option><option>Hyderabad</option><option>Pune</option></select>
+ <input id="lb" placeholder="Brand"><select id="ls"><option>XS</option><option>S</option><option selected>M</option><option>L</option><option>XL</option></select><select id="lk"><option>Excellent</option><option>Very good</option><option>Good</option></select><input id="lp" type="number" placeholder="Purchase price ₹">
+ <input id="lr" type="number" placeholder="Rental price ₹/day"><input id="ld" type="number" placeholder="Security deposit ₹"></div><input id="la" placeholder="Private pickup address" style="margin-top:10px"><label class="note" style="display:block;margin-top:10px">Photos (front, back, close-up, embroidery, condition; up to 8)</label><input id="lf" type="file" accept="image/*" multiple><button class="cta" onclick="publish()">Publish listing</button>`}
+function shrink(f){return new Promise((ok,no)=>{const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{const k=Math.min(1,1400/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);ok(c.toDataURL('image/jpeg',.82))};im.onerror=()=>no(Error('Could not read '+f.name));im.src=u})}
+async function publish(){try{const r=await api('/listings',{title:$('#lt').value,category:$('#lc').value,occasion:$('#lo').value,city:$('#ly').value,brand:$('#lb').value,size:$('#ls').value,condition:$('#lk').value,purchase_price:$('#lp').value||0,rental_price:$('#lr').value,deposit:$('#ld').value,pickup_address:$('#la').value,area:'Central '+$('#ly').value});const fs=[...($('#lf').files||[])].slice(0,8);for(const f of fs){toast('Uploading photo…');await api('/listings/'+r.id+'/photos',{data:await shrink(f)})}confetti();toast('Listing published');F={};go('explore')}catch(e){toast(e.message)}}
+async function renderPf(){if(!T){$('#pf').innerHTML='<div class="box"><p class="mut">Log in to manage your closet and earnings.</p><button class="cta" onclick="needAuth(renderPf)">Log in / Sign up</button></div>';return}
+ try{ME=await api('/me');const e=await api('/earnings');$('#pf').innerHTML=`<div class="box"><h3>${esc(ME.name||ME.email)}</h3><p class="mut">${esc(ME.email)} · ${ME.verification.replace('_',' ')}</p></div><div class="box two"><div class="stat"><b>${R(e.available_paise)}</b>Available</div><div class="stat"><b>${R(e.pending_paise)}</b>Pending</div></div><p class="note">Earnings are after the platform fee. Withdrawals are not enabled yet.</p><button class="cta" onclick="logout()">Log out</button>`}catch(x){logout()}}
+function logout(){T='';ME=null;localStorage.removeItem('rms_t');renderPf();toast('Logged out')}
+function confetti(){const c=['#b8963e','#6d1a2b','#e8d9b8','#26221f'];for(let k=0;k<44;k++){const e=document.createElement('i');e.className='conf';e.style.cssText=`left:${Math.random()*100}vw;background:${c[k%4]};animation-delay:${Math.random()*.5}s`;document.body.append(e);setTimeout(()=>e.remove(),2600)}}
+const NAV=[['home','⌂','Home'],['explore','◇','Explore'],['sell','＋','Sell'],['bookings','▤','Bookings'],['profile','☺','Profile']];
+$('#nav').innerHTML=NAV.map(([v,i,l])=>`<button data-v="${v}" onclick="go('${v}')"><span>${i}</span>${l}</button>`).join('');
+function show(id){$('#ov').classList.add('on');$('#'+id).classList.add('on')}
+function closeAll(){$('#ov').classList.remove('on');document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('on'))}
+function go(v){closeAll();document.querySelectorAll('.view').forEach(e=>e.classList.toggle('on',e.id==v));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v==v));scrollTo(0,0);
+ if(v=='explore')renderList();if(v=='sell')renderSell();if(v=='bookings')renderBk();if(v=='profile')renderPf()}
+function sheet(){show('sh');if(!$('#sco').children.length)$('#sco').innerHTML=['Wedding','Reception','Engagement','Party'].map(x=>`<button class="chip" onclick="styleMe('${x}',this)">${x}</button>`).join('')}
+async function styleMe(o,b){document.querySelectorAll('#sco .chip').forEach(x=>x.classList.toggle('on',x==b));$('#sres').innerHTML='<div class="scan"></div>';try{const m=(await api('/listings?occasion='+o)).slice(0,4);$('#sres').innerHTML=m.length?`<div class="grid" style="margin-top:10px">${m.map(card).join('')}</div>`:'<p class="mut">No looks for this occasion yet.</p>'}catch(e){toast(e.message)}}
+(async()=>{try{CFG=await api('/config')}catch(e){}await load();$('#trend').innerHTML=items.slice(0,4).map(card).join('')||'<p class="mut">No listings yet.</p>'})();
+</script></body></html>
